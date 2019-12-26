@@ -19,9 +19,13 @@ export class ActionsBarComponent implements OnInit {
   }
 
   onClickStartGame(){
-    const newBoard= this.boardService.createBoardInService()['boardArrays']
+    console.log(`clicked onClickStartGame`);
+
+    const newBoard = this.boardService.createBoardInService()
     console.log(`newBoard`,newBoard);
-    this.connectService.passBoardObject(newBoard)
+    console.log(`num of occupied cells in board: `,newBoard.getOccuipiedCellsNumber());
+    const newBoardReduced = newBoard['boardArrays']
+    this.connectService.passBoardObject(newBoardReduced)
   }
 
 }
