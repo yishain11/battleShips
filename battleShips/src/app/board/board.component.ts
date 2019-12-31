@@ -26,8 +26,8 @@ export class BoardComponent implements OnInit {
   hitCell(cell:Cell,cellID:object){
     // console.log(`hitted cell, `,cell);
 
-    console.log(`attacking cell: `,cellID);
-    console.log(`did we hit something? is the cell occupied by a ship? `,cell['isOccupiedByShip'])
+    // console.log(`attacking cell: `,cellID);
+    // console.log(`did we hit something? is the cell occupied by a ship? `,cell['isOccupiedByShip'])
 
 
     if(cell['isOccupiedByShip']){
