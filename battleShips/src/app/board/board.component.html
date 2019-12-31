@@ -5,23 +5,45 @@
       <hr>
     </div>
   </div>
-  <div class="boardContainer" *ngIf="boardObj; else noBoard">
-    <div class="row" *ngFor="let boardObjrow of boardObj">
-      <div class="row" *ngFor="let cell of boardObjrow">
-        <div class="col">
-          <div class="cellContainer"
-          [ngClass]="(cell['isOccupiedByShip']&&cell['haveBeenHit'])?'hittedOcupiedCell':'nonHitCell'"
-          (click)="hitCell(cell,cell['id'])">
+  <div class="IfGameIsStillOn" *ngIf="!isGameOver;else gameOverContainer">
+    <div class="boardContainer" *ngIf="boardObj && numberOfMisslesLeftToFire>0; else noBoard">
+      <div class="row" id="misslesDataCOntainer">
+        Number Of Missle to Fire: {{numberOfMisslesLeftToFire}} | Number of Fired Missles: {{numberOfFireMissels}}
+      </div>
+      <div class="row" *ngFor="let boardObjrow of boardObj">
+        <div class="row" *ngFor="let cell of boardObjrow">
+          <div class="col">
+            <div class="cellContainer"
+            [ngClass]="(cell['isOccupiedByShip']&&cell['haveBeenHit'])?'hittedOcupiedCell':'nonHitCell'"
+            (click)="hitCell(cell,cell['id'])">
 
-            <!-- {{cell["id"]|json}} -->
+              <!-- {{cell["id"]|json}} -->
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <ng-template #noBoard>
+      <div class="noBoard">
+        <h3>PLEASE CREATE A NEW BOARD TO START</h3>
+      </div>
+    </ng-template>
   </div>
-  <ng-template #noBoard>
-    <div class="noBoard">
-      <h3>PLEASE CREATE A NEW BOARD TO START</h3>
+  <ng-template #gameOverContainer>
+    <div class="row">
+      <div class="col-xs-12"><p>Game Over</p></div>
     </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>You Hitted {{numberOfHittedCells}} Ship Cells. Success rate: {{calculateSuccessRate()}}%</p>
+      </div>
+
+    </div>
+      <br>
+      <div class="row">
+        <div class="col-xs-12">
+          Please click "start game" to restart
+        </div>
+      </div>
   </ng-template>
 </div>

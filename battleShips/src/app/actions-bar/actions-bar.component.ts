@@ -25,6 +25,7 @@ export class ActionsBarComponent implements OnInit {
     console.log(`num of occupied cells in board: `,newBoard.getOccuipiedCellsNumber());
     const newBoardReduced = newBoard['boardArrays']
     this.connectService.passBoardObject(newBoardReduced)
+    this.connectService.clalculateMisslesNumber()
   }
 
 }

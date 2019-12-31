@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Board } from "../classes/board.class";
+import { StateManagementService } from './state-management.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardCreationService {
 
-  boardSizeX:number = 5
-  boardSIzeY:number = 5
-  shipsNUmber:number = 3
-  shipsSize:number = 2
-  numOfMissles:number = 15
 
-  constructor() { }
+  constructor(
+    private stateService:StateManagementService
+  ) { }
 
   createBoardInService():Board{
-    return new Board(this.boardSizeX,this.boardSIzeY,this.shipsNUmber,this.shipsSize)
+    const boardSizeX = this.stateService.getStateValue('boardDimentionSizeX'),
+    boardSIzeY = this.stateService.getStateValue('boardDimentionSizeY'),
+    shipsNUmber=this.stateService.getStateValue('numberOfShips'),
+    shipsSize = this.stateService.getStateValue('sizeOfShips');
+
+    return new Board(boardSizeX,boardSIzeY,shipsNUmber,shipsSize)
   }
 
 }
