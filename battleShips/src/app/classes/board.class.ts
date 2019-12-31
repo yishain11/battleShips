@@ -70,12 +70,12 @@ export class Board {
           // cellForPopulationRowIndexY = cellIDForPopulating[1]
         }
         // console.log(cellForPopulationcellIndexX,cellForPopulationRowIndexY,' is not occupied. can check populate');
-        let posibleDirectionToPopulateFromRootCell:string[] = this.checkIfNextCellCanBePopulated(cellIDForPopulating[1],cellIDForPopulating[0],ShipSize,numOfColsX,numOfRowsY)
+        let posibleDirectionToPopulateFromRootCell:string[] = this.checkIfNextCellCanBePopulated(boardArray,cellIDForPopulating[1],cellIDForPopulating[0],ShipSize,numOfColsX,numOfRowsY)
         while(posibleDirectionToPopulateFromRootCell.length === 0){
           ({cellForPopulationcellIndexX,cellForPopulationRowIndexY} = this.resetCellSelection(numOfColsX,numOfRowsY))
 
           // let cellIDForPopulating = this.generateNewCellIdToPopulate(numOfColsX,numOfRowsY)
-          let posibleDirectionToPopulateFromRootCell:string[] = this.checkIfNextCellCanBePopulated(cellForPopulationRowIndexY,cellForPopulationcellIndexX,ShipSize,numOfColsX,numOfRowsY)
+          let posibleDirectionToPopulateFromRootCell:string[] = this.checkIfNextCellCanBePopulated(boardArray,cellForPopulationRowIndexY,cellForPopulationcellIndexX,ShipSize,numOfColsX,numOfRowsY)
         }
         // console.log(`posibleDirectionToPopulateFromRootCell: `,posibleDirectionToPopulateFromRootCell);
         const directionToPopulate = posibleDirectionToPopulateFromRootCell[Math.floor(Math.random()*posibleDirectionToPopulateFromRootCell.length)]
@@ -85,22 +85,22 @@ export class Board {
       }
   }
 
-  checkIfNextCellCanBePopulated(YpositionToPopuateRowIndex,XpositionToPopuateCellIndex,ShipSize,numOfColsX,numOfRowsY):string[]{
+  checkIfNextCellCanBePopulated(boardArray,YpositionToPopuateRowIndex,XpositionToPopuateCellIndex,ShipSize,numOfColsX,numOfRowsY):string[]{
     const shipsOriantation:string[] = ['up','down','left','right']
 
       let notAllowedDirectionForNextCell:string[] = []
-      if(XpositionToPopuateCellIndex === 0){
+      if(XpositionToPopuateCellIndex === 0 || boardArray[YpositionToPopuateRowIndex][XpositionToPopuateCellIndex-1]['isOccupiedByShip']){
         notAllowedDirectionForNextCell.push('left')
       }
-      if(XpositionToPopuateCellIndex===numOfColsX-1 && XpositionToPopuateCellIndex+ShipSize-1>numOfColsX-1 ){
+      if(XpositionToPopuateCellIndex===numOfColsX-1 || XpositionToPopuateCellIndex+ShipSize-1>numOfColsX-1 || boardArray[YpositionToPopuateRowIndex][XpositionToPopuateCellIndex+1]['isOccupiedByShip']){
         notAllowedDirectionForNextCell.push('right')
       }
 
-      if(YpositionToPopuateRowIndex === 0){
+      if(YpositionToPopuateRowIndex === 0 || boardArray[YpositionToPopuateRowIndex+1][XpositionToPopuateCellIndex]['isOccupiedByShip']){
         notAllowedDirectionForNextCell.push('up')
       }
 
-      if(YpositionToPopuateRowIndex === numOfRowsY-1 && YpositionToPopuateRowIndex+ShipSize-1>numOfRowsY-1){
+      if(YpositionToPopuateRowIndex === numOfRowsY-1 || YpositionToPopuateRowIndex+ShipSize-1>numOfRowsY-1 || boardArray[YpositionToPopuateRowIndex-1][XpositionToPopuateCellIndex+1]['isOccupiedByShip']){
         notAllowedDirectionForNextCell.push('down')
       }
 
