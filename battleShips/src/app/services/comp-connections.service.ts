@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable,Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Board } from '../classes/board.class';
+import { Cell } from "../classes/cell.class";
 
 
 @Injectable({
@@ -10,9 +11,9 @@ export class CompConnectionsService {
 
   constructor() { }
 
-  passBoardSubject:Subject<object> = new Subject()
+  private passBoardSubject:Subject<object> = new Subject()
 
-  $passBoardObservable = this.passBoardSubject.asObservable()
+  private $passBoardObservable = this.passBoardSubject.asObservable()
 
   passBoardSubScribe(){
     return this.$passBoardObservable

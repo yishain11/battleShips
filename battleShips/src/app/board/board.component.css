@@ -1,0 +1,23 @@
+.cellContainer{
+  height: 50px;
+  width:50px;
+  background-color:blue;
+  border: solid 2px black;
+  border-radius: 4px 4px;
+}
+
+.cellContainer:hover{
+  background-color:gray;
+}
+
+.nonHitCell{
+  height: 50px;
+  width:50px;
+  background-color:blue;
+  border: solid 2px black;
+  border-radius: 4px 4px;
+}
+
+.hittedOcupiedCell{
+  background-color: red;
+}

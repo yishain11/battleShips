@@ -1,1 +1,27 @@
-<p>board works!</p>
+<div class="continaer">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>BattleShips</h1>
+      <hr>
+    </div>
+  </div>
+  <div class="boardContainer" *ngIf="boardObj; else noBoard">
+    <div class="row" *ngFor="let boardObjrow of boardObj">
+      <div class="row" *ngFor="let cell of boardObjrow">
+        <div class="col">
+          <div class="cellContainer"
+          [ngClass]="(cell['isOccupiedByShip']&&cell['haveBeenHit'])?'hittedOcupiedCell':'nonHitCell'"
+          (click)="hitCell(cell,cell['id'])">
+
+            <!-- {{cell["id"]|json}} -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noBoard>
+    <div class="noBoard">
+      <h3>PLEASE CREATE A NEW BOARD TO START</h3>
+    </div>
+  </ng-template>
+</div>
