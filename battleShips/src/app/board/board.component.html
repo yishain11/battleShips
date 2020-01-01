@@ -1,21 +1,23 @@
 <div class="continaer">
-  <div class="row">
+  <div class="row" id="titleContiainer">
     <div class="col-xs-12">
       <h1>BattleShips</h1>
       <hr>
     </div>
   </div>
   <div class="IfGameIsStillOn" *ngIf="!isGameOver;else gameOverContainer">
-    <div class="boardContainer" *ngIf="boardObj && numberOfMisslesLeftToFire>0; else noBoard">
+    <div class="boardContainer" *ngIf="!isGameOver && numberOfMisslesLeftToFire>=0; else noBoard">
       <div class="row" id="misslesDataCOntainer">
         Number Of Missle to Fire: {{numberOfMisslesLeftToFire}} | Number of Fired Missles: {{numberOfFireMissels}}
       </div>
       <div class="row" *ngFor="let boardObjrow of boardObj">
         <div class="row" *ngFor="let cell of boardObjrow">
-          <div class="col">
+          <div class="col" >
             <div class="cellContainer"
-            [ngClass]="(cell['isOccupiedByShip']&&cell['haveBeenHit'])?'hittedOcupiedCell':'nonHitCell'"
-            (click)="hitCell(cell,cell['id'])">
+            #CellElement
+            (click)="hitCell($event,cell)"
+            id="singleCell"
+            >
 
               <!-- {{cell["id"]|json}} -->
             </div>

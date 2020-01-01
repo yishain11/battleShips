@@ -28,24 +28,20 @@ export class BoardComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
 
-    const numberOfShips:number = this.stateService.getStateValue('numberOfShips')
-    const sizeOfShip:number = this.stateService.getStateValue('sizeOfShips')
-    this.totalCellsToHit = numberOfShips*sizeOfShip
-
-    this.compComunication.clalculateMisslesNumber()
-    this.numberOfMisslesLeftToFire = this.stateService.getStateValue('numberOfMissleArsenal')
-
     this.boardReciver = this.compComunication.passBoardSubScribe().subscribe(newBoardObj=>{
       this.boardObj = newBoardObj
-      this.isGameOver = false
+      this.resetGame()
     })
   }
 
-  hitCell(cell:Cell,cellID:object){
-    // console.log(`hitted cell, `,cell);
-
-    // console.log(`attacking cell: `,cellID);
-    // console.log(`did we hit something? is the cell occupied by a ship? `,cell['isOccupiedByShip'])
+  hitCell(event,cell:Cell){
+    // console.log(`hitting cell: `,cell);
+    // console.log('event:');
+    // console.log(event)
+    if(this.numberOfMisslesLeftToFire<=0){
+      this.isGameOver = true
+      return
+    }
 
     this.numberOfFireMissels +=1
     this.numberOfMisslesLeftToFire -= 1
@@ -53,28 +49,38 @@ export class BoardComponent implements OnInit,OnDestroy {
     this.stateService.setNewStateValue('numberOfMisslesFired',currentStateStoredMissleFired+1)
 
     if(cell['isOccupiedByShip']){
-      console.log(`hitted enemy ship!`);
+      // console.log(`hitted enemy ship!`);
       cell['haveBeenHit'] = true
+      // console.log(`event.target.classList: `,event.target.classList);
+      event.target.classList.add('hittedOcupiedCell')
       this.numberOfHittedCells += 1
       const currentHitCellNumInState:number = this.stateService.getStateValue('numberOfHittedCells')
       this.stateService.setNewStateValue('numberOfHittedCells',currentHitCellNumInState+1,this.boardObj)
+    }
+    else{
+      // console.log(`event.target.classList: `,event.target.classList);
+
+      event.target.classList.add('hitNonOcupiedCell')
+
     }
   }
 
 
   calculateSuccessRate(){
     const sucRate:number = Math.floor((this.numberOfHittedCells/this.totalCellsToHit)*100)
-    // this.resetBoardState()
-    // this.isGameOver = true
     return sucRate
   }
 
-  // resetBoardState(){
-  //   this.numberOfMisslesLeftToFire
-  //   this.numberOfFireMissels = 0
-  //   this.numberOfHittedCells = 0
-  //   this.totalCellsToHit
-  // }
+
+  resetGame(){
+    const numberOfShips:number = this.stateService.getStateValue('numberOfShips')
+    const sizeOfShip:number = this.stateService.getStateValue('sizeOfShips')
+    this.totalCellsToHit = numberOfShips*sizeOfShip
+
+    this.compComunication.clalculateMisslesNumber()
+    this.numberOfMisslesLeftToFire = this.stateService.getStateValue('numberOfMissleArsenal')
+    this.isGameOver = false
+  }
 
   ngOnDestroy(){
   //   this.boardReciver.unsubscribe()

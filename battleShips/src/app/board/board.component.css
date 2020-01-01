@@ -21,3 +21,8 @@
 .hittedOcupiedCell{
   background-color: red;
 }
+
+
+.hitNonOcupiedCell{
+  background-color: blueviolet;
+}
